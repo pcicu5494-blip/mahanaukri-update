@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Hardened security helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Job document validation blueprint
+    function isValidJob(data) {
+      return data.keys().hasAll(['title', 'department', 'category', 'postName', 'status']) &&
+        data.title is string && data.title.size() > 0 && data.title.size() <= 300 &&
+        data.department is string && data.department.size() > 0 && data.department.size() <= 200 &&
+        data.category is string && data.category.size() > 0 && data.category.size() <= 100 &&
+        data.postName is string && data.postName.size() > 0 && data.postName.size() <= 200 &&
+        data.status is string && (data.status == 'published' || data.status == 'draft' || data.status == 'archived');
+    }
+
+    // Connection testing endpoint
+    match /test/{testId} {
+      allow get: if true;
+    }
+
+    // Recruitment Jobs Collection
+    match /jobs/{jobId} {
+      // Public visitors can only read published jobs. Authenticated admins can read all jobs.
+      allow get: if (isSignedIn()) || (resource.data.status == 'published');
+      allow list: if (isSignedIn()) || (resource.data.status == 'published');
+
+      // Only authenticated admins can create, update, or delete recruitment jobs
+      allow create: if isSignedIn() && isValidId(jobId) && isValidJob(incoming());
+      allow update: if isSignedIn() && isValidId(jobId) && isValidJob(incoming());
+      allow delete: if isSignedIn() && isValidId(jobId);
+    }
+  }
+}

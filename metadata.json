@@ -1,0 +1,6 @@
+{
+  "name": "MahaNaukri Update - Govt Jobs & Bharti Recruitment Portal",
+  "description": "Maharashtra and Central Government job alerts, police bharti recruitment notifications, hall tickets, and verified portal updates.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

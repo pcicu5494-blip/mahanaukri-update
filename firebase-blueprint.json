@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "Job": {
+      "title": "Recruitment Job",
+      "description": "Government recruitment notification details including post, vacancies, dates, status, and action links",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Full job notification title", "maxLength": 300 },
+        "department": { "type": "string", "description": "Recruiting department name", "maxLength": 200 },
+        "category": { "type": "string", "description": "Job category (Police Bharti, Army Bharti, Railway, SSC, Banking, Maharashtra Govt)", "maxLength": 100 },
+        "postName": { "type": "string", "description": "Designation or post name", "maxLength": 200 },
+        "vacancies": { "type": "number", "description": "Total vacancy count" },
+        "qualification": { "type": "string", "description": "Minimum educational qualification required", "maxLength": 300 },
+        "ageLimit": { "type": "string", "description": "Eligible age criteria", "maxLength": 150 },
+        "ageRelaxation": { "type": "string", "description": "Category-wise age relaxation rules", "maxLength": 300 },
+        "salary": { "type": "string", "description": "Pay scale or monthly salary bracket", "maxLength": 150 },
+        "applicationFee": { "type": "string", "description": "Category-wise application examination fees", "maxLength": 200 },
+        "location": { "type": "string", "description": "Job posting location or Maharashtra state-wide", "maxLength": 150 },
+        "startDate": { "type": "string", "description": "Online application starting date", "maxLength": 50 },
+        "lastDate": { "type": "string", "description": "Online application deadline date", "maxLength": 50 },
+        "examDate": { "type": "string", "description": "Tentative or scheduled exam date", "maxLength": 100 },
+        "selectionProcess": { "type": "string", "description": "Summary of selection rounds and tests", "maxLength": 2000 },
+        "physicalRequirements": { "type": "string", "description": "Height, chest, and physical fitness criteria", "maxLength": 1000 },
+        "documentsRequired": { "type": "string", "description": "Required certificates and identification documents", "maxLength": 2000 },
+        "howToApply": { "type": "string", "description": "Step-by-step application instructions", "maxLength": 2000 },
+        "applyLink": { "type": "string", "description": "Direct URL for online job application", "maxLength": 1000 },
+        "hallTicketLink": { "type": "string", "description": "Direct URL to download hall ticket / admit card", "maxLength": 1000 },
+        "notificationLink": { "type": "string", "description": "URL to official notification document or syllabus", "maxLength": 1000 },
+        "officialWebsite": { "type": "string", "description": "URL of official government recruitment department portal", "maxLength": 1000 },
+        "resultLink": { "type": "string", "description": "Direct URL to check examination result or merit list", "maxLength": 1000 },
+        "hallTicketReleased": { "type": "boolean", "description": "Flag indicating if hall ticket is released" },
+        "resultReleased": { "type": "boolean", "description": "Flag indicating if result is declared" },
+        "featured": { "type": "boolean", "description": "Flag indicating if job is pinned/featured on portal" },
+        "status": { "type": "string", "description": "Publication status: published, draft, or archived", "maxLength": 50 },
+        "notificationPdf": { "type": "string", "description": "Uploaded PDF file name or document link", "maxLength": 1000 },
+        "createdAt": { "type": "string", "description": "ISO timestamp or server time of creation", "maxLength": 100 },
+        "updatedAt": { "type": "string", "description": "ISO timestamp or server time of last update", "maxLength": 100 }
+      },
+      "required": ["title", "department", "category", "postName", "status"]
+    }
+  },
+  "firestore": {
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Recruitment job postings managed by admin and queried by public users"
+    }
+  }
+}

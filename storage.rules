@@ -1,0 +1,25 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Default deny for all files
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Official recruitment notification PDFs
+    match /job-notifications/{jobId}/{fileName} {
+      // Public visitors can read/download published notification PDFs
+      allow read: if true;
+
+      // Only authenticated admin users can upload or replace notification PDFs
+      // Enforce PDF content type and size limit (25MB)
+      allow write: if request.auth != null
+        && request.resource.contentType == 'application/pdf'
+        && request.resource.size <= 25 * 1024 * 1024;
+
+      // Only authenticated admin users can delete notification PDFs
+      allow delete: if request.auth != null;
+    }
+  }
+}
