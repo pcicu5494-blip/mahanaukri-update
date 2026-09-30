@@ -231,7 +231,7 @@ function AppContent() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/mahanaukri-update">
       <JobProvider>
         <AppContent />
       </JobProvider>
